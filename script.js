@@ -37,27 +37,33 @@ function displayCurrentForecast(data) {
   const date = new Date(data.location.localtime);
   document.querySelector(".time").textContent = `${date.getHours()}:${date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
     }`;
-  document.querySelector(".date").textContent = `${date.getDayOfWeek()}, ${date.getDate()} ${date.getFullMonth()}`
-  document.querySelector(".conditionText").textContent = data.current.condition.text
-  document.querySelector(".temp").textContent = data.current.temp_c + " °C"
-  document.querySelector(".feelslike").textContent = "Feels like " + data.current.feelslike_c + " °C"
-  document.querySelector(".wind").textContent = data.current.wind_kph + " km/h"
-  document.querySelector(".humidity").textContent = data.current.humidity + "%"
-  document.querySelector(".rainChance").textContent = forecast_today.day.daily_chance_of_rain + "%"
-  document.querySelector(".conditionIcon").src = getIconSrc(data.current.condition.code, data.current.is_day)
+  document.querySelector(".date").textContent =
+    `${date.getDayOfWeek()}, ${date.getDate()} ${date.getFullMonth()}`;
+  document.querySelector(".conditionText").textContent =
+    data.current.condition.text;
+  document.querySelector(".temp").textContent = data.current.temp_c + " °C";
+  document.querySelector(".feelslike").textContent =
+    "Feels like " + data.current.feelslike_c + " °C";
+  document.querySelector(".wind").textContent = data.current.wind_kph + " km/h";
+  document.querySelector(".humidity").textContent = data.current.humidity + "%";
+  document.querySelector(".rainChance").textContent =
+    forecast_today.day.daily_chance_of_rain + "%";
+  document.querySelector(".conditionIcon").src = getIconSrc(
+    data.current.condition.code,
+    data.current.is_day,
+  );
 }
 
 function displayWeeklyForecast(data) {
-  data.forecast.forecastday.forEach((day) => {
-    const el = createElement("p");
-    const img = createElement("img");
-    img.src = getIconSrc(day.day.condition.code, 1);
-    el.innerHTML = `
-${new Date(day.date).getDayOfWeek()} ${day.day.maxtemp_c}C ${day.day.mintemp_c
-      }C ${day.day.condition.text}
-`;
-    content.appendChild(el);
-    content.appendChild(img);
+  const weeklyForecast = document.querySelector(".weeklyForecast");
+  const children = weeklyForecast.children
+  data.forecast.forecastday.forEach((day, index) => {
+    const current = document.querySelectorAll('.card')[index];
+    current.querySelector('.cardTempHigh').textContent = day.day.maxtemp_c + " °C";
+    current.querySelector(".cardTempLow").textContent = day.day.mintemp_c + " °C";
+    const date = new Date(day.date);
+    current.querySelector("header").textContent = `${date.getDayOfWeek()}, ${date.getDate()} ${date.getFullMonth()}`
+    current.querySelector("img").src = getIconSrc(day.day.condition.code, 1)
   });
 }
 
@@ -115,7 +121,7 @@ async function getWeatherDataByIp() {
 
 async function getWeatherDataByLocationID(id) {
   const response = await fetch(
-    `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=id:${id}&days=3`,
+    `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=id:${id}&days=5`,
     { mode: "cors" },
   );
   const data = await response.json();
@@ -131,6 +137,6 @@ async function getIp() {
 }
 
 let data = await getWeatherDataByIp();
-console.log(data)
+console.log(data);
 displayCurrentForecast(data);
-// displayWeeklyForecast(data);
+displayWeeklyForecast(data);
