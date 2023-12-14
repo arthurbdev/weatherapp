@@ -9,9 +9,7 @@ function displayCurrentForecast(data) {
   const forecast_today = data.forecast.forecastday[0];
   el.setAttribute('style', 'white-space: pre-line;');
   const iconcode = data.current.condition.code;
-  const icon = weatherConditions.find(item => item.code === iconcode).icon;
-  const time = data.current.is_day ? "day" : "night";
-  const iconsrc = `./assets/weather/64x64/${time}/${icon}.png`
+  const iconsrc = getIconSrc(iconcode, data.current.is_day)
   const img = document.createElement("img")
   img.src = iconsrc;
 
@@ -25,6 +23,14 @@ ${data.current.humidity}% humidity, ${data.current.wind_kph}km/h wind, ${forecas
 `;
   document.body.appendChild(el);
   document.body.appendChild(img)
+}
+
+
+function getIconSrc(iconcode, is_day) {
+  const icon = weatherConditions.find(icon => icon.code === iconcode).icon
+  const time = is_day ? "day" : "night";
+  return `./assets/weather/64x64/${time}/${icon}.png`
+
 }
 
 function createElement(element, classname, textContent) {
