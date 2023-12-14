@@ -1,8 +1,38 @@
 import API_KEY from "./apikey.js";
 import weatherConditions from "./assets/weather_conditions.json" assert {type: 'json'};
 
-async function displayCurrentForecast() {
-  const data = await getWeatherDataByIp();
+const search = document.getElementById("search");
+const button = document.querySelector("button");
+const suggestions = document.querySelector(".suggestions");
+const content = document.getElementById("content");
+
+search.addEventListener("input", async (e) => {
+  const value = search.value;
+  suggestions.innerHTML = "";
+  if (value && value.length >= 3) {
+    const request = await fetch(
+      `https://api.weatherapi.com/v1/search.json?key=${API_KEY}&q=${value}`,
+      { mode: "cors" },
+    );
+    const data = await request.json();
+    data.forEach((item) => {
+      const elem = document.createElement("button");
+      elem.textContent = `${item.name}, ${item.country}`;
+      elem.addEventListener('click', async () => {
+        let data = await getWeatherDataByLocationID(item.id);
+        content.innerHTML = "";
+        suggestions.innerHTML = "";
+        displayCurrentForecast(data);
+        displayWeeklyForecast(data);
+      })
+      suggestions.appendChild(elem);
+      console.log(item);
+    });
+  }
+});
+
+button.addEventListener("click", async (e) => {
+});
 
 function displayCurrentForecast(data) {
   const el = createElement("p", "data");
@@ -21,8 +51,8 @@ ${data.current.temp_c}C, ${data.current.condition.text}, Feelslike ${data.curren
 FORECAST_TODAY:
 ${data.current.humidity}% humidity, ${data.current.wind_kph}km/h wind, ${forecast_today.day.daily_chance_of_rain}% chance of rain
 `;
-  document.body.appendChild(el);
-  document.body.appendChild(img)
+  content.appendChild(el);
+  content.appendChild(img)
 }
 
 function displayWeeklyForecast(data) {
@@ -33,8 +63,8 @@ function displayWeeklyForecast(data) {
     el.innerHTML = `
 ${new Date(day.date).getDayOfWeek()} ${day.day.maxtemp_c}C ${day.day.mintemp_c}C ${day.day.condition.text}
 `
-    document.body.appendChild(el)
-    document.body.appendChild(img);
+    content.appendChild(el)
+    content.appendChild(img);
   })
 }
 
@@ -66,6 +96,14 @@ async function getWeatherDataByIp() {
   return data;
 }
 
+async function getWeatherDataByLocationID(id) {
+  const response = await fetch(
+    `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=id:${id}&days=3`, { mode: "cors" },
+  );
+  const data = await response.json();
+  return data;
+}
+
 async function getIp() {
   const ip_response = await fetch("https://api.ipify.org/?format=json", {
     mode: "cors",
@@ -74,5 +112,6 @@ async function getIp() {
   return ip.ip;
 }
 
-const data = await getWeatherDataByIp();
+let data = await getWeatherDataByIp();
 displayCurrentForecast(data);
+displayWeeklyForecast(data);
