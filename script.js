@@ -3,7 +3,8 @@ import weatherConditions from "./assets/weather_conditions.json" assert {type: '
 
 async function displayCurrentForecast() {
   const data = await getWeatherDataByIp();
-  console.log(data);
+
+function displayCurrentForecast(data) {
   const el = createElement("p", "data");
   const forecast_today = data.forecast.forecastday[0];
   el.setAttribute('style', 'white-space: pre-line;');
@@ -51,5 +52,5 @@ async function getIp() {
   return ip.ip;
 }
 
-
-displayCurrentForecast();
+const data = await getWeatherDataByIp();
+displayCurrentForecast(data);
