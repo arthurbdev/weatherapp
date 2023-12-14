@@ -25,6 +25,22 @@ ${data.current.humidity}% humidity, ${data.current.wind_kph}km/h wind, ${forecas
   document.body.appendChild(img)
 }
 
+function displayWeeklyForecast(data) {
+  data.forecast.forecastday.forEach(day => {
+    const el = createElement("p");
+    const img = createElement("img");
+    img.src = getIconSrc(day.day.condition.code, 1)
+    el.innerHTML = `
+${new Date(day.date).getDayOfWeek()} ${day.day.maxtemp_c}C ${day.day.mintemp_c}C ${day.day.condition.text}
+`
+    document.body.appendChild(el)
+    document.body.appendChild(img);
+  })
+}
+
+Date.prototype.getDayOfWeek = function(){   
+    return ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][ this.getDay() ];
+};
 
 function getIconSrc(iconcode, is_day) {
   const icon = weatherConditions.find(icon => icon.code === iconcode).icon
