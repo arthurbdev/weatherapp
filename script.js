@@ -2,7 +2,6 @@ import API_KEY from "./apikey.js";
 import weatherConditions from "./assets/weather_conditions.json" assert { type: "json" };
 
 const search = document.getElementById("search");
-const button = document.querySelector("button");
 const suggestions = document.querySelector(".suggestions");
 const content = document.getElementById("content");
 
@@ -20,7 +19,6 @@ search.addEventListener("input", async (e) => {
       elem.textContent = `${item.name}, ${item.country}`;
       elem.addEventListener("click", async () => {
         let data = await getWeatherDataByLocationID(item.id);
-        content.innerHTML = "";
         suggestions.innerHTML = "";
         displayCurrentForecast(data);
         displayWeeklyForecast(data);
@@ -31,27 +29,22 @@ search.addEventListener("input", async (e) => {
   }
 });
 
-button.addEventListener("click", async (e) => { });
-
 function displayCurrentForecast(data) {
-  const el = createElement("p", "data");
   const forecast_today = data.forecast.forecastday[0];
-  el.setAttribute("style", "white-space: pre-line;");
-  const iconcode = data.current.condition.code;
-  const iconsrc = getIconSrc(iconcode, data.current.is_day);
-  const img = document.createElement("img");
-  img.src = iconsrc;
 
-  el.innerHTML = `
-LOCATION:
-${data.location.name}, ${data.location.country}, ${data.location.localtime},
-CURRENT:
-${data.current.temp_c}C, ${data.current.condition.text}, Feelslike ${data.current.feelslike_c}C,
-FORECAST_TODAY:
-${data.current.humidity}% humidity, ${data.current.wind_kph}km/h wind, ${forecast_today.day.daily_chance_of_rain}% chance of rain
-`;
-  content.appendChild(el);
-  content.appendChild(img);
+  document.querySelector(".cityName").textContent = data.location.name;
+  document.querySelector(".countryName").textContent = data.location.country;
+  const date = new Date(data.location.localtime);
+  document.querySelector(".time").textContent = `${date.getHours()}:${date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
+    }`;
+  document.querySelector(".date").textContent = `${date.getDayOfWeek()}, ${date.getDate()} ${date.getFullMonth()}`
+  document.querySelector(".conditionText").textContent = data.current.condition.text
+  document.querySelector(".temp").textContent = data.current.temp_c + " °C"
+  document.querySelector(".feelslike").textContent = "Feels like " + data.current.feelslike_c + " °C"
+  document.querySelector(".wind").textContent = data.current.wind_kph + " km/h"
+  document.querySelector(".humidity").textContent = data.current.humidity + "%"
+  document.querySelector(".rainChance").textContent = forecast_today.day.daily_chance_of_rain + "%"
+  document.querySelector(".conditionIcon").src = getIconSrc(data.current.condition.code, data.current.is_day)
 }
 
 function displayWeeklyForecast(data) {
@@ -78,6 +71,23 @@ Date.prototype.getDayOfWeek = function() {
     "Friday",
     "Saturday",
   ][this.getDay()];
+};
+
+Date.prototype.getFullMonth = function() {
+  return [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ][this.getMonth()];
 };
 
 function getIconSrc(iconcode, is_day) {
@@ -121,5 +131,6 @@ async function getIp() {
 }
 
 let data = await getWeatherDataByIp();
+console.log(data)
 displayCurrentForecast(data);
-displayWeeklyForecast(data);
+// displayWeeklyForecast(data);
