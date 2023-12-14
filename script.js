@@ -1,5 +1,5 @@
 import API_KEY from "./apikey.js";
-import weatherConditions from "./assets/weather_conditions.json" assert {type: 'json'};
+import weatherConditions from "./assets/weather_conditions.json" assert { type: "json" };
 
 const search = document.getElementById("search");
 const button = document.querySelector("button");
@@ -18,29 +18,28 @@ search.addEventListener("input", async (e) => {
     data.forEach((item) => {
       const elem = document.createElement("button");
       elem.textContent = `${item.name}, ${item.country}`;
-      elem.addEventListener('click', async () => {
+      elem.addEventListener("click", async () => {
         let data = await getWeatherDataByLocationID(item.id);
         content.innerHTML = "";
         suggestions.innerHTML = "";
         displayCurrentForecast(data);
         displayWeeklyForecast(data);
-      })
+      });
       suggestions.appendChild(elem);
       console.log(item);
     });
   }
 });
 
-button.addEventListener("click", async (e) => {
-});
+button.addEventListener("click", async (e) => { });
 
 function displayCurrentForecast(data) {
   const el = createElement("p", "data");
   const forecast_today = data.forecast.forecastday[0];
-  el.setAttribute('style', 'white-space: pre-line;');
+  el.setAttribute("style", "white-space: pre-line;");
   const iconcode = data.current.condition.code;
-  const iconsrc = getIconSrc(iconcode, data.current.is_day)
-  const img = document.createElement("img")
+  const iconsrc = getIconSrc(iconcode, data.current.is_day);
+  const img = document.createElement("img");
   img.src = iconsrc;
 
   el.innerHTML = `
@@ -52,31 +51,39 @@ FORECAST_TODAY:
 ${data.current.humidity}% humidity, ${data.current.wind_kph}km/h wind, ${forecast_today.day.daily_chance_of_rain}% chance of rain
 `;
   content.appendChild(el);
-  content.appendChild(img)
+  content.appendChild(img);
 }
 
 function displayWeeklyForecast(data) {
-  data.forecast.forecastday.forEach(day => {
+  data.forecast.forecastday.forEach((day) => {
     const el = createElement("p");
     const img = createElement("img");
-    img.src = getIconSrc(day.day.condition.code, 1)
+    img.src = getIconSrc(day.day.condition.code, 1);
     el.innerHTML = `
-${new Date(day.date).getDayOfWeek()} ${day.day.maxtemp_c}C ${day.day.mintemp_c}C ${day.day.condition.text}
-`
-    content.appendChild(el)
+${new Date(day.date).getDayOfWeek()} ${day.day.maxtemp_c}C ${day.day.mintemp_c
+      }C ${day.day.condition.text}
+`;
+    content.appendChild(el);
     content.appendChild(img);
-  })
+  });
 }
 
-Date.prototype.getDayOfWeek = function(){   
-    return ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][ this.getDay() ];
+Date.prototype.getDayOfWeek = function() {
+  return [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ][this.getDay()];
 };
 
 function getIconSrc(iconcode, is_day) {
-  const icon = weatherConditions.find(icon => icon.code === iconcode).icon
+  const icon = weatherConditions.find((icon) => icon.code === iconcode).icon;
   const time = is_day ? "day" : "night";
-  return `./assets/weather/64x64/${time}/${icon}.png`
-
+  return `./assets/weather/64x64/${time}/${icon}.png`;
 }
 
 function createElement(element, classname, textContent) {
@@ -98,7 +105,8 @@ async function getWeatherDataByIp() {
 
 async function getWeatherDataByLocationID(id) {
   const response = await fetch(
-    `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=id:${id}&days=3`, { mode: "cors" },
+    `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=id:${id}&days=3`,
+    { mode: "cors" },
   );
   const data = await response.json();
   return data;
