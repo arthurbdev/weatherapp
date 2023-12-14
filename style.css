@@ -4,6 +4,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  list-style: none;
 }
 
 body {
@@ -28,13 +29,14 @@ h1 {
   padding: 10px;
 }
 
-#content {
+#currentForecast {
   padding: 40px 100px;
   display: flex;
 
   align-items: center;
   width: 100%;
   justify-content: space-around;
+  flex-wrap: nowrap;
 }
 
 .cityName {
@@ -53,6 +55,7 @@ h1 {
   justify-content: space-between;
   gap: 50px;
   align-items: center;
+  position: relative;
 }
 
 .search {
@@ -104,7 +107,7 @@ h1 {
 
 .conditionText,
 .temp {
-  font-size: 6rem;
+  font-size: 5rem;
 }
 
 .right img {
@@ -194,15 +197,78 @@ h1 {
 .condition {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 20px;
 }
 
 .conditionIcon {
-  width: 100%;
+  width: 120px;
   height: 120px;
 }
 
-.suggestions {
-  display: flex;
+#loading {
+  width: 2rem;
+  height: 2rem;
+  border: 5px solid #f3f3f3;
+  border-top: 6px solid #3f7ac6;
+  border-radius: 100%;
+  margin: auto;
+  animation: spin 1s infinite linear;
+}
+
+.hidden {
+  display: none;
+}
+
+#loadingscreen {
+  display: none;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
+  gap: 20px;
+  font-size: 2rem;
+}
+
+#loadingscreen.display {
+  display: flex !important;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.suggestions {
+  position: absolute;
+  z-index: 10;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  width: 100%;
+  margin-top: 10px;
+}
+
+.suggestions li {
+  color: #338cdf;
+  cursor: pointer;
+  display: block;
+  padding: 10px;
+}
+
+.suggestions li:first-child {
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+}
+
+.suggestions li:last-child {
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.suggestions li:hover {
+  background-color: #338cdf;
+  color: white;
 }

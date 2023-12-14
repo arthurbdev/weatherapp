@@ -3,9 +3,8 @@ import weatherConditions from "./assets/weather_conditions.json" assert { type: 
 
 const search = document.getElementById("search");
 const suggestions = document.querySelector(".suggestions");
-const content = document.getElementById("content");
 
-search.addEventListener("input", async (e) => {
+search.addEventListener("input", async () => {
   const value = search.value;
   suggestions.innerHTML = "";
   if (value && value.length >= 3) {
@@ -15,13 +14,14 @@ search.addEventListener("input", async (e) => {
     );
     const data = await request.json();
     data.forEach((item) => {
-      const elem = document.createElement("button");
+      const elem = document.createElement("li");
       elem.textContent = `${item.name}, ${item.country}`;
       elem.addEventListener("click", async () => {
         let data = await getWeatherDataByLocationID(item.id);
         suggestions.innerHTML = "";
         displayCurrentForecast(data);
         displayWeeklyForecast(data);
+        search.value = "";
       });
       suggestions.appendChild(elem);
       console.log(item);
@@ -35,8 +35,9 @@ function displayCurrentForecast(data) {
   document.querySelector(".cityName").textContent = data.location.name;
   document.querySelector(".countryName").textContent = data.location.country;
   const date = new Date(data.location.localtime);
-  document.querySelector(".time").textContent = `${date.getHours()}:${date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
-    }`;
+  document.querySelector(".time").textContent = `${
+    date.getHours() < 10 ? "0" + date.getHours() : date.getHours()
+  }:${date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()}`;
   document.querySelector(".date").textContent =
     `${date.getDayOfWeek()}, ${date.getDate()} ${date.getFullMonth()}`;
   document.querySelector(".conditionText").textContent =
@@ -56,18 +57,21 @@ function displayCurrentForecast(data) {
 
 function displayWeeklyForecast(data) {
   const weeklyForecast = document.querySelector(".weeklyForecast");
-  const children = weeklyForecast.children
+  const children = weeklyForecast.children;
   data.forecast.forecastday.forEach((day, index) => {
-    const current = document.querySelectorAll('.card')[index];
-    current.querySelector('.cardTempHigh').textContent = day.day.maxtemp_c + " °C";
-    current.querySelector(".cardTempLow").textContent = day.day.mintemp_c + " °C";
+    const current = document.querySelectorAll(".card")[index];
+    current.querySelector(".cardTempHigh").textContent =
+      day.day.maxtemp_c + " °C";
+    current.querySelector(".cardTempLow").textContent =
+      day.day.mintemp_c + " °C";
     const date = new Date(day.date);
-    current.querySelector("header").textContent = `${date.getDayOfWeek()}, ${date.getDate()} ${date.getFullMonth()}`
-    current.querySelector("img").src = getIconSrc(day.day.condition.code, 1)
+    current.querySelector("header").textContent =
+      `${date.getDayOfWeek()}, ${date.getDate()} ${date.getFullMonth()}`;
+    current.querySelector("img").src = getIconSrc(day.day.condition.code, 1);
   });
 }
 
-Date.prototype.getDayOfWeek = function() {
+Date.prototype.getDayOfWeek = function () {
   return [
     "Sunday",
     "Monday",
@@ -79,7 +83,7 @@ Date.prototype.getDayOfWeek = function() {
   ][this.getDay()];
 };
 
-Date.prototype.getFullMonth = function() {
+Date.prototype.getFullMonth = function () {
   return [
     "January",
     "February",
@@ -109,22 +113,36 @@ function createElement(element, classname, textContent) {
   return el;
 }
 
+function displayLoading() {
+  document.querySelector("#content").classList.add("hidden");
+  document.querySelector("#loadingscreen").classList.add("display");
+}
+
+function hideLoading() {
+  document.querySelector("#loadingscreen").classList.remove("display");
+  document.querySelector("#content").classList.remove("hidden");
+}
+
 async function getWeatherDataByIp() {
+  displayLoading();
   const ip = await getIp();
   const response = await fetch(
     `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${ip}&days=3`,
     { mode: "cors" },
   );
   const data = await response.json();
+  hideLoading();
   return data;
 }
 
 async function getWeatherDataByLocationID(id) {
+  displayLoading();
   const response = await fetch(
     `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=id:${id}&days=5`,
     { mode: "cors" },
   );
   const data = await response.json();
+  hideLoading();
   return data;
 }
 

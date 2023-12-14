@@ -10,85 +10,91 @@
 
   <body>
     <h1>UWEATHER</h1>
-    <div class="date">Monday, 13 November</div>
-    <div class="time">9:31 PM</div>
-    <div class="searchBar">
-      <input
-        class="search"
-        id="search"
-        type="search"
-        placeholder="Change location..."
-      />
-      <img class="searchIcon" src="assets/magnify.svg" alt="Search Icon" />
-    </div>
     <div id="content">
-      <div class="left">
-        <div class="searchContainer">
-          <h3 class="cityName">Odesa</h3>
-        </div>
-        <h2 class="countryName">Ukraine</h2>
-        <div class="condition">
-          <div class="conditionText">Cloudy</div>
-          <img class="conditionIcon" src="" alt="">
-        </div>
-        <div class="temp">16 °C</div>
-        <div class="feelslike">Feels like 11 °C</div>
+      <div class="date"></div>
+      <div class="time"></div>
+      <div class="searchBar">
+        <input
+          class="search"
+          id="search"
+          type="search"
+          placeholder="Change location..."
+        />
+        <img class="searchIcon" src="assets/magnify.svg" alt="Search Icon" />
+        <ul class="suggestions"></ul>
       </div>
-      <div class="right">
-        <figure class="windContainer">
-          <img src="assets/weather-windy.svg" alt="Wind Icon" />
-          <figcaption>Wind speed <span class="wind">9.5 km/h</span></figcaption>
-        </figure>
-        <figure class="humidityContainer">
-          <img src="assets/water-outline.svg" alt="Humidity icon" />
-          <figcaption>Humidity <span class="humidity">45%</span></figcaption>
-        </figure>
-        <figure class="rainChanceContainer">
-          <img src="assets/weather-pouring.svg" alt="Rain chance icon" />
-          <figcaption>
-            Chance of rain <span class="rainChance">12%</span>
-          </figcaption>
-        </figure>
+      <div id="currentForecast">
+        <div class="left">
+          <div class="searchContainer">
+            <h3 class="cityName"></h3>
+          </div>
+          <h2 class="countryName"></h2>
+          <div class="condition">
+            <div class="conditionText"></div>
+            <img class="conditionIcon" src="" alt="" />
+          </div>
+          <div class="temp"></div>
+          <div class="feelslike"></div>
+        </div>
+        <div class="right">
+          <figure class="windContainer">
+            <img src="assets/weather-windy.svg" alt="Wind Icon" />
+            <figcaption>Wind speed <span class="wind"></span></figcaption>
+          </figure>
+          <figure class="humidityContainer">
+            <img src="assets/water-outline.svg" alt="Humidity icon" />
+            <figcaption>Humidity <span class="humidity"></span></figcaption>
+          </figure>
+          <figure class="rainChanceContainer">
+            <img src="assets/weather-pouring.svg" alt="Rain chance icon" />
+            <figcaption>
+              Chance of rain <span class="rainChance"></span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+      <div class="weeklyForecast">
+        <div class="card currentCard">
+          <div class="header current">
+            <header></header>
+          </div>
+          <div class="cardTempHigh"></div>
+          <div class="cardIconContainer">
+            <div class="cardTempLow"></div>
+            <div class="cardIcon">
+              <img src="" alt="" />
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="header">
+            <header></header>
+          </div>
+          <div class="cardTempHigh"></div>
+          <div class="cardIconContainer">
+            <div class="cardTempLow"></div>
+            <div class="cardIcon">
+              <img src="" alt="" />
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="header">
+            <header>Wednesday</header>
+          </div>
+          <div class="cardTempHigh">16 °C</div>
+          <div class="cardIconContainer">
+            <div class="cardTempLow">8 °C</div>
+            <div class="cardIcon">
+              <img src="" alt="" />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="weeklyForecast">
-      <div class="card currentCard">
-        <div class="header current">
-          <header>Wednesday</header>
-        </div>
-        <div class="cardTempHigh">16 °C</div>
-        <div class="cardIconContainer">
-          <div class="cardTempLow">8 °C</div>
-          <div class="cardIcon">
-            <img src="assets/weather/64x64/day/113.png" alt="" />
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="header">
-          <header>Wednesday</header>
-        </div>
-        <div class="cardTempHigh">16 °C</div>
-        <div class="cardIconContainer">
-          <div class="cardTempLow">8 °C</div>
-          <div class="cardIcon">
-            <img src="assets/weather/64x64/day/113.png" alt="" />
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="header">
-          <header>Wednesday</header>
-        </div>
-        <div class="cardTempHigh">16 °C</div>
-        <div class="cardIconContainer">
-          <div class="cardTempLow">8 °C</div>
-          <div class="cardIcon">
-            <img src="assets/weather/64x64/day/113.png" alt="" />
-          </div>
-        </div>
-      </div>
+    <div id="loadingscreen">
+      <div id="loading"></div>
+      <p>Fetching data...</p>
     </div>
-    <div class="suggestions"></div>
   </body>
 </html>
