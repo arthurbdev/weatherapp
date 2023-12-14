@@ -1,4 +1,181 @@
-.suggestions {
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(229deg, rgba(42,105,184,1) 0%, rgba(20,54,117,1) 99%);
+  background-repeat: no-repeat;
+  color: white;
+  min-height: 100vh;
+  font-family: 'Montserrat', sans-serif;
+}
+
+h1::first-letter {
+  font-size: 3rem;
+  color: #FFC83C;
+
+}
+
+h1{
+  font-size: 2rem;
+  padding: 10px;
+}
+
+#content {
+  padding: 40px 100px;
+  display: flex;
+
+  align-items: center;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.cityName {
+  font-weight: normal;
+  opacity: 0.9;
+  font-size: 2.5rem;
+}
+
+.countryName {
+  font-size: 5rem;
+  opacity: .8;
+}
+
+.searchContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+  align-items: center;
+}
+
+.search {
+  border-radius: 25px;
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 10px;
+  padding-left: 1rem;
+  width: 40vw;
+  font-size: 1.5rem;
+  border: none;
+}
+
+.searchBar {
+  margin: 0 auto;
+  width: fit-content;
+  position: relative;
+}
+
+.searchIcon {
+  height: 100%;
+  width: 25px;
+  opacity: 0.3;
+  position: absolute;
+  right: 10px;
+}
+
+.search::placeholder {
+  color: white;
+  opacity: 0.4;
+}
+
+.date, .time {
+  text-align: center;
+  margin: 10px auto;
+  font-size: 3rem;
+}
+
+.time {
+  font-size: 3.5rem;
+}
+
+.feelslike {
+  opacity: .7;
+  font-size: 1.5rem;
+}
+
+.conditionText, .temp {
+  font-size: 6rem;
+}
+
+
+.right img {
+  height: 100%;
+  width: 100px;
+}
+
+.right figure {
+  display: flex;
+  gap: 20px;
+}
+
+.right figure figcaption {
   display: flex;
   flex-direction: column;
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.7)
 }
+
+.right span {
+  font-size: 2rem;
+  color: white;
+}
+
+.weeklyforecast {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 50px;
+  margin: 20px;
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(42,105,184,1) 0%, rgba(20,54,117,1) 99%);
+  border-radius: 20px;
+  padding: 10px;
+  width: 150px;
+}
+
+.current {
+  background-color: #6aaaef !important
+}
+
+.currentCard {
+  background: linear-gradient(180deg, rgba(51,124,215,1) 0%, rgba(31,77,161,1) 99%) !important;
+
+}
+
+.card .header {
+  font-size: 1.2rem;
+  background-color: #3f7ac6;
+  margin: -10px -10px 0 -10px;
+  padding: 5px;
+  border-radius: 20px;
+}
+
+.cardTempHigh {
+  font-size: 2.5rem;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.cardTempLow {
+  font-size: 1.5rem;
+}
+
+.cardIconContainer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+
+.cardIcon img {
+  height: 100%;
+  width: 64px;
+}
+
+.suggestions { display: flex; flex-direction: column; }
