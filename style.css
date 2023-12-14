@@ -1,0 +1,4 @@
+.suggestions {
+  display: flex;
+  flex-direction: column;
+}

@@ -1,14 +1,19 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <script defer src="script.js"></script>
-  <title>Weather App</title>
-</head>
-<body>
-  <input type="search" placeholder="Type to search...">
-  <div class="suggestions"></div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="script.js" type="module"></script>
+    <title>Weather App</title>
+  </head>
+
+  <body>
+    <input id="search" type="search" placeholder="Type to search..." />
+    <div class="suggestions"></div>
+    <button type="button">Show suggestions</button>
+    <div id="content">
+
+    </div>
+  </body>
 </html>
